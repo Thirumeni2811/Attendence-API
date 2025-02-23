@@ -1,5 +1,4 @@
 const httpStatus = require("http-status");
-const Employee = require("../models/employee.model");
 const Organisation = require("../models/organisation.model");
 const User = require("../models/user.model");
 const ApiError = require("../utils/ApiError");

@@ -1,6 +1,4 @@
 module.exports.authValidation = require("./auth.validation");
-module.exports.userValidation = require("./user.validation");
-module.exports.loanValidation = require("./loan.validation");
 module.exports.organisationValidation = require("./organisation.validation");
 module.exports.departmentValidation = require("./department.validation");
 module.exports.designationValidation = require("./designation.validation");

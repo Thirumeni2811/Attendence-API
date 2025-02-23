@@ -1,13 +1,9 @@
 const express = require("express");
 const authRoute = require("./auth.route");
-const userRoute = require("./user.route");
 const docsRoute = require("./docs.route");
 const fileRoute = require("./file.route");
 const config = require("../../config/config");
 const subscription = require("./payment.route");
-const material = require("./material.route");
-const setting = require("./setting.route");
-const loan = require("./loan.route");
 const organisation = require("./organisation.route");
 const department = require("./department.route");
 const designation = require("./designation.route");
@@ -26,28 +22,12 @@ const defaultRoutes = [
     route: authRoute,
   },
   {
-    path: "/users",
-    route: userRoute,
-  },
-  {
     path: "/media",
     route: fileRoute,
   },
   {
-    path: "/materials",
-    route: material,
-  },
-  {
     path: "/subscription",
     route: subscription,
-  },
-  {
-    path: "/settings",
-    route: setting,
-  },
-  {
-    path: "/loan",
-    route: loan,
   },
   {
     path: "/organisation",

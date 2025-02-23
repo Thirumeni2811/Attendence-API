@@ -1,9 +1,6 @@
 module.exports.Token = require("./token.model");
 module.exports.User = require("./user.model");
-module.exports.Setting = require("./setting.model");
-module.exports.Loan = require("./loan.model");
 module.exports.Attendance = require("./attendance.model");
-module.exports.Employee = require("./employee.model");
 module.exports.Leave = require("./leave.model");
 module.exports.Notification = require("./notification.model");
 module.exports.Organisation = require("./organisation.model");

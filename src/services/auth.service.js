@@ -7,6 +7,18 @@ const { tokenTypes } = require("../config/tokens");
 const User = require("../models/user.model");
 
 /**
+ * Create a user
+ * @param {Object} userBody
+ * @returns {Promise<User>}
+ */
+const createUser = async (userBody) => {
+  if (await User.isEmailTaken(userBody.email)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
+  }
+  return User.create(userBody);
+};
+
+/**
  * Login with username and password
  * @param {string} email
  * @param {string} password
@@ -19,109 +31,6 @@ const loginUserWithEmailAndPassword = async (email, password) => {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");
   }
   return user;
-};
-
-/**
- * Login with phoneNo
- * @param {string} phoneNo
- */
-
-const loginWithPhoneNo = async (phoneNo, success, res) => {
-  // console.log('Attempting login with phone number:', phoneNo);
-
-  if (success) {
-    let user = await User.findOne({ phoneNo });
-    if (!user) {
-      user = await User.create({ phoneNo });
-    }
-
-    user.isPhoneNoVerified = true;
-    await user.save();
-
-    return user;
-  }
-  return res
-    .status(httpStatus.BAD_REQUEST)
-    .json({ message: "Please verify your OTP." });
-};
-
-/**
- * Aadhar verification
- */
-
-const verifyAadhar = async (aadharBody, res) => {
-  const { userId, aadharPhotos, aadharNo, success } = aadharBody;
-
-  if (success) {
-    const user = await User.findById(userId);
-
-    // If the user already has an Aadhar number, don't allow updates
-    if (user.aadharNo) {
-      return res.status(httpStatus.CONFLICT).json({
-        message: "Aadhar number is already linked. You cannot update it.",
-      });
-    }
-
-    // Check if the Aadhar number is already associated with another user
-    const existingUserWithAadhar = await User.findOne({ aadharNo });
-    if (
-      existingUserWithAadhar &&
-      existingUserWithAadhar._id.toString() !== userId
-    ) {
-      return res.status(httpStatus.CONFLICT).json({
-        message: "This Aadhar number is already linked to another user",
-      });
-    }
-
-    const updateAadharDetails = await User.findByIdAndUpdate(userId, {
-      $set: {
-        aadharNo,
-        "aadharPhotos.frontPhoto": aadharPhotos.frontPhoto,
-        "aadharPhotos.backPhoto": aadharPhotos.backPhoto,
-      },
-    });
-    updateAadharDetails.isAadharNoVerified = true;
-    await updateAadharDetails.save();
-    return updateAadharDetails;
-  }
-  return res
-    .status(httpStatus.BAD_REQUEST)
-    .json({ message: "Please verify your Aadhar" });
-};
-
-/**
- * Pan verification
- */
-const verifyPan = async (panBody, res) => {
-  const { userId, panPhotos, panNo } = panBody;
-
-  const user = await User.findById(userId);
-
-  // If the user already has an pan number, don't allow updates
-  if (user.panNo) {
-    return res.status(httpStatus.CONFLICT).json({
-      message: "Pan number is already linked. You cannot updated it.",
-    });
-  }
-
-  // Check if the pan number is already associated with another user
-  const existingUserWithPan = await User.findOne({ panNo });
-  if (existingUserWithPan && existingUserWithPan._id.toString() !== userId) {
-    return res
-      .status(httpStatus.CONFLICT)
-      .json({ message: "This Pan number is already linked to another user" });
-  }
-
-  const updatePanDetails = await User.findByIdAndUpdate(userId, {
-    $set: {
-      panNo,
-      "panPhotos.frontPhoto": panPhotos.frontPhoto,
-      "panPhotos.backPhoto": panPhotos.backPhoto,
-    },
-  });
-  updatePanDetails.isPanNoVerified = true;
-  await updatePanDetails.save();
-  return updatePanDetails;
 };
 
 /**
@@ -230,10 +139,8 @@ const verifyEmail = async (verifyEmailToken) => {
 //-------------------------------------------------------------------------------
 
 module.exports = {
+  createUser,
   loginUserWithEmailAndPassword,
-  loginWithPhoneNo,
-  verifyAadhar,
-  verifyPan,
   loginUserWithUsernameAndPassword,
   logout,
   refreshAuth,

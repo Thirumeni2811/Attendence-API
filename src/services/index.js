@@ -1,0 +1,15 @@
+module.exports.authService = require("./auth.service");
+module.exports.emailService = require("./email.service");
+module.exports.tokenService = require("./token.service");
+module.exports.userService = require("./user.service");
+module.exports.settingService = require("./setting.service");
+module.exports.loanService = require("./loan.service");
+module.exports.organisationService = require("./organisation.service");
+module.exports.departmentService = require("./department.service");
+module.exports.designationService = require("./designation.service");
+module.exports.employeeService = require("./employee.service");
+module.exports.locationService = require("./location.service");
+module.exports.scheduleService = require("./schedule.service");
+module.exports.holidayService = require("./holiday.service");
+module.exports.leaveService = require("./leave.service");
+module.exports.attendenceService = require("./attendence.service");

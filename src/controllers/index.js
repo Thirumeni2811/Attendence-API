@@ -1,0 +1,13 @@
+module.exports.authController = require("./auth.controller");
+module.exports.userController = require("./user.controller");
+module.exports.settingController = require("./setting.controller");
+module.exports.loanController = require("./loan.controller");
+module.exports.organisationController = require("./organisation.controller");
+module.exports.departmentController = require("./department.controller");
+module.exports.designationController = require("./designation.controller");
+module.exports.employeeController = require("./employee.controller");
+module.exports.locationController = require("./location.controller");
+module.exports.scheduleController = require("./schedule.controller");
+module.exports.holidayController = require("./holiday.controller");
+module.exports.leaveController = require("./leave.controller");
+module.exports.attendenceController = require("./attendence.controller");

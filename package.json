@@ -1,11 +1,11 @@
 {
-  "name": "Microfinance",
+  "name": "Attendence",
   "version": "1.7.0",
-  "description": "Microfinance - loan application",
+  "description": "Location based Attendence System",
   "bin": "bin/createNodejsApp.js",
   "main": "src/index.js",
   "repository": "",
-  "author": "Arun Prince",
+  "author": "Thirumeni",
   "license": "MIT",
   "engines": {
     "node": ">=12.0.0"

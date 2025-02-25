@@ -5,7 +5,7 @@ services:
     build: .
     image: node-app
     environment:
-      - MONGODB_URL=mongodb://mongodb:27017/microfinance
+      - MONGODB_URL=mongodb://mongodb:27017/attendence
     ports:
       - "3006:3006"
     depends_on:

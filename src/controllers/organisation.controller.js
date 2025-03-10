@@ -21,6 +21,15 @@ const getOrganisationsById = catchAsync(async (req, res) => {
     })
 })
 
+// get organisation by Token
+const getOrganisationsByToken = catchAsync(async (req, res) => {
+    const organisation = await organisationService.getOrganisationById(req.user.organisation);
+    res.status(httpStatus.OK).send({
+        code: httpStatus.OK,
+        data: organisation,
+    })
+})
+
 // update organisation by Id
 const updateOrganisationsById = catchAsync(async (req, res) => {
     const organisation = await organisationService.updateOrganisationById(req.params.id, req.body);
@@ -60,6 +69,7 @@ module.exports = {
     createOrganisation,
     getAllOrganisations,
     getOrganisationsById,
+    getOrganisationsByToken,
     updateOrganisationsById,
     createbatches,
     getAllBatches,

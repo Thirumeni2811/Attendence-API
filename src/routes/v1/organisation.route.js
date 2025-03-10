@@ -14,6 +14,11 @@ router
         checkRole("admin"),
         organisationController.createOrganisation
     )
+    .get(
+        auth(),
+        checkRole("admin"),
+        organisationController.getOrganisationsByToken
+    )
 
 router
     .route("/getAll")

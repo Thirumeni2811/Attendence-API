@@ -30,12 +30,13 @@ const createOrganisation = async (body, id) => {
  * Get organisation b Id
  */
 const getOrganisationById = async (id) => {
-    const organisation = await Organisation.findById(id);
+    const organisation = await Organisation.findById(id).populate('owner', 'email role');
+    console.log(organisation)
     return organisation;
 }
 
 /**
- * Update organisation b Id
+ * Update organisation by Id
  */
 const updateOrganisationById = async (id, body) => {
     const organisation = await Organisation.findByIdAndUpdate(id, body, {

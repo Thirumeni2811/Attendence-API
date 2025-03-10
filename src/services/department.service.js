@@ -12,12 +12,12 @@ const createDepartment = async (organisationId, body) => {
         throw new ApiError(httpStatus.BAD_REQUEST, "Organisation not found");
     }
     body.organisation = organisation.id;
-    const existingDesignation = await Department.findOne({
+    const existingDepartment = await Department.findOne({
         organisation: organisation.id,
         name: body.name
     });
 
-    if (existingDesignation) {
+    if (existingDepartment) {
         throw new ApiError(httpStatus.BAD_REQUEST, "This department already exists in this organisation");
     }
     const departments = await Department.create(body);
@@ -45,16 +45,16 @@ const updateDepartment = async (organisationId, deptId, body) => {
     }
     const organisation = await Organisation.findById(organisationId);
     if (body.name) {
-        const existingDesignation = await Department.findOne({
+        const existingDepartment = await Department.findOne({
             organisation: organisation.id,
             name: body.name,
             _id: { $ne: deptId }
         });
+        if (existingDepartment) {
+            throw new ApiError(httpStatus.BAD_REQUEST, "This department already exists in this organisation");
+        }
     }
 
-    if (existingDesignation) {
-        throw new ApiError(httpStatus.BAD_REQUEST, "This department already exists in this organisation");
-    }
     const updatedDepartment = await Department.findByIdAndUpdate(deptId, body, {
         new: true,
         runValidators: true,

@@ -31,7 +31,7 @@ const createOrganisation = async (body, id) => {
  */
 const getOrganisationById = async (id) => {
     const organisation = await Organisation.findById(id).populate('owner', 'email role');
-    console.log(organisation)
+    // console.log(organisation)
     return organisation;
 }
 

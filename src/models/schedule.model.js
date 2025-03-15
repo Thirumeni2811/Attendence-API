@@ -10,9 +10,8 @@ const scheduleSchema = new mongoose.Schema(
     name: {
       type: String,
     },
-    type: {
+    description: {
       type: String,
-      enum: ["Educational", "Corporate", "Other"],
     },
     workingHours: {
       startTime: { type: String },

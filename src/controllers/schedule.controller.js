@@ -37,9 +37,19 @@ const deleteSchedule = catchAsync(async (req, res) => {
     res.status(httpStatus.NO_CONTENT).send();
 });
 
+//get by id
+const getScheduleById = catchAsync(async (req, res) => {
+    const data = await scheduleService.getScheduleById(req.user.organisation, req.params.scheduleId);
+    res.status(httpStatus.OK).send({
+        code: httpStatus.OK,
+        data,
+    });
+})
+
 module.exports = {
     createSchedule,
     getSchedule,
     updateSchedule,
     deleteSchedule,
+    getScheduleById,
 }

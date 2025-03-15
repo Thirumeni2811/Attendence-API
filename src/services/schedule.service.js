@@ -78,9 +78,18 @@ const deleteSchedule = async (organisationId, scheduleId) => {
     return schedule;
 }
 
+/**
+ * Get the Id
+ */
+const getScheduleById = async (orgId, scheduleId) => {
+    const schedule = await Schedule.findById(scheduleId);
+    return schedule;
+}
+
 module.exports = {
     createSchedule,
     getSchedule,
     updateSchedule,
     deleteSchedule,
+    getScheduleById,
 }

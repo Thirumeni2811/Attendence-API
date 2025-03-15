@@ -13,6 +13,7 @@ router
 
 router
   .route("/:scheduleId")
+  .get(auth(), validate(scheduleValidation.scheduleId), scheduleController.getScheduleById)
   .patch(auth(), validate(scheduleValidation.scheduleId), scheduleController.updateSchedule)
   .delete(auth(), validate(scheduleValidation.scheduleId), scheduleController.deleteSchedule);
 

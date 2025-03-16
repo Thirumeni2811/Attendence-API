@@ -19,15 +19,16 @@ const scheduleSchema = new mongoose.Schema(
     },
     breaks: [
       {
-        breakType: {
-          type: String,
-          enum: ["Short Break", "Lunch", "Other"],
-        },
-        startTime: { type: String },
-        endTime: { type: String },
-        period: { type: Number },  
+          _id: { type: mongoose.Schema.Types.ObjectId, auto: true }, // Unique ID for each break
+          breakType: {
+              type: String,
+              enum: ["Short Break", "Lunch", "Other"],
+          },
+          startTime: { type: String },
+          endTime: { type: String },
+          period: { type: Number },  
       },
-    ],
+  ],
   },
   {
     timestamps: true,

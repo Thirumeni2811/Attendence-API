@@ -17,4 +17,13 @@ router
   .patch(auth(), validate(scheduleValidation.scheduleId), scheduleController.updateSchedule)
   .delete(auth(), validate(scheduleValidation.scheduleId), scheduleController.deleteSchedule);
 
+  router
+  .route("/:scheduleId/breaks")
+  .post(auth(), validate(scheduleValidation.addBreak), scheduleController.addBreakToSchedule);
+
+router
+  .route("/:scheduleId/breaks/:breakId")
+  .patch(auth(), validate(scheduleValidation.updateBreak), scheduleController.updateBreakInSchedule)
+  .delete(auth(), validate(scheduleValidation.deleteBreak), scheduleController.deleteBreakFromSchedule); 
+
 module.exports = router;

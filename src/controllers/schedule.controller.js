@@ -46,10 +46,39 @@ const getScheduleById = catchAsync(async (req, res) => {
     });
 })
 
+// Create a new break
+const addBreakToSchedule = catchAsync(async (req, res) => {
+    const data = await scheduleService.addBreakToSchedule(req.user.organisation, req.params.scheduleId, req.body);
+    res.status(httpStatus.CREATED).send({
+        code: httpStatus.CREATED,
+        message: "Break added successfully",
+        data,
+    });
+});
+
+// Update a break
+const updateBreakInSchedule = catchAsync(async (req, res) => {
+    const data = await scheduleService.updateBreakInSchedule(req.user.organisation, req.params.scheduleId, req.params.breakId, req.body);
+    res.status(httpStatus.OK).send({
+        code: httpStatus.OK,
+        message: "Break updated successfully",
+        data,
+    });
+});
+
+// Delete a break
+const deleteBreakFromSchedule = catchAsync(async (req, res) => {
+    await scheduleService.deleteBreakFromSchedule(req.user.organisation, req.params.scheduleId, req.params.breakId);
+    res.status(httpStatus.NO_CONTENT).send();
+});
+
 module.exports = {
     createSchedule,
     getSchedule,
     updateSchedule,
     deleteSchedule,
     getScheduleById,
+    addBreakToSchedule,
+    updateBreakInSchedule,
+    deleteBreakFromSchedule,
 }

@@ -81,10 +81,69 @@ const deleteSchedule = async (organisationId, scheduleId) => {
 /**
  * Get the Id
  */
-const getScheduleById = async (orgId, scheduleId) => {
-    const schedule = await Schedule.findById(scheduleId);
+const getScheduleById = async (organisationId, scheduleId) => {
+    const schedule = await Schedule.findOne({ _id: scheduleId, organisation: organisationId });
+    if (!schedule) {
+        throw new ApiError(httpStatus.NOT_FOUND, "Schedule not found or does not belong to the organisation");
+    }
     return schedule;
-}
+};
+
+/**
+ * Add breaks
+ */
+const addBreakToSchedule = async (organisationId, scheduleId, breakData) => {
+    const schedule = await Schedule.findOne({ _id: scheduleId, organisation: organisationId });
+    if (!schedule) {
+        throw new ApiError(httpStatus.NOT_FOUND, "Schedule not found or does not belong to the organisation");
+    }
+
+    schedule.breaks.push(breakData);
+    await schedule.save();
+
+    return schedule;
+};
+
+/**
+ * Update breaks
+ */
+const updateBreakInSchedule = async (organisationId, scheduleId, breakId, breakData) => {
+    const schedule = await Schedule.findOne({ _id: scheduleId, organisation: organisationId });
+    if (!schedule) {
+        throw new ApiError(httpStatus.NOT_FOUND, "Schedule not found or does not belong to the organisation");
+    }
+
+    const breakIndex = schedule.breaks.findIndex((br) => br._id.toString() === breakId);
+    if (breakIndex === -1) {
+        throw new ApiError(httpStatus.NOT_FOUND, "Break not found in the schedule");
+    }
+
+    schedule.breaks[breakIndex] = { ...schedule.breaks[breakIndex].toObject(), ...breakData };
+    await schedule.save();
+
+    return schedule;
+};
+
+/**
+ * Delete Break
+ */
+const deleteBreakFromSchedule = async (organisationId, scheduleId, breakId) => {
+    const schedule = await Schedule.findOne({ _id: scheduleId, organisation: organisationId });
+    if (!schedule) {
+        throw new ApiError(httpStatus.NOT_FOUND, "Schedule not found or does not belong to the organisation");
+    }
+
+    const initialLength = schedule.breaks.length;
+    schedule.breaks = schedule.breaks.filter((br) => br._id.toString() !== breakId);
+
+    if (schedule.breaks.length === initialLength) {
+        throw new ApiError(httpStatus.NOT_FOUND, "Break not found in the schedule");
+    }
+
+    await schedule.save();
+
+    return schedule;
+};
 
 module.exports = {
     createSchedule,
@@ -92,4 +151,7 @@ module.exports = {
     updateSchedule,
     deleteSchedule,
     getScheduleById,
+    addBreakToSchedule,
+    updateBreakInSchedule,
+    deleteBreakFromSchedule,
 }

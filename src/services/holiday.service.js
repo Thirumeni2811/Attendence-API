@@ -48,7 +48,8 @@ const updateHoliday = async (organisationId, holidayId, body) => {
     if (body.date) {
         const existingHoliday = await Holiday.findOne({
             organisation: organisation.id,
-            date: body.date
+            date: body.date,
+            _id: { $ne: holidayId }
         });
         if (existingHoliday) {
             throw new ApiError(httpStatus.BAD_REQUEST, "This Holiday name already exists in this organisation");

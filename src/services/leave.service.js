@@ -1,5 +1,7 @@
+const httpStatus = require("http-status");
 const Leave = require("../models/leave.model");
 const User = require("../models/user.model");
+const ApiError = require("../utils/ApiError");
 
 /**
  * Leave request by user
@@ -19,7 +21,7 @@ const leaveRequest = async (id, body) => {
     });
 
     if (existingLeave) {
-        throw new Error("Leave already requested for this period");
+        throw new ApiError(httpStatus.CONFLICT, "Leave already requested for this period");
     }
     body.employee = user.id;
     body.organisation = user.organisation;

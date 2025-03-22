@@ -13,10 +13,10 @@ router
 
 router
     .route("/getAll")
-    .get(auth(), leaveController.getLeavesByOrganisation)
+    .get(auth("getUsers"), leaveController.getLeavesByOrganisation)
 
 router
     .route("/:leaveId")
-    .patch(auth(), validate(leaveValidation.leaveId), leaveController.leaveApprovals)
+    .patch(auth("manageUsers"), validate(leaveValidation.leaveId), leaveController.leaveApprovals)
 
 module.exports = router;

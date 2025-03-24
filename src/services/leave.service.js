@@ -58,7 +58,12 @@ const getLeavesByUser = async (userId) => {
 
 // Get leaves by organisation ID
 const getLeavesByOrganisation = async (organisationId) => {
-    return await Leave.find({ organisation: organisationId }).populate("employee approvedBy");
+    return await Leave.find({ organisation: organisationId })
+        .populate("employee approvedBy")
+        .populate({
+            path: "approvedBy",
+            populate: ["department", "designation"]
+        });
 };
 
 module.exports = {

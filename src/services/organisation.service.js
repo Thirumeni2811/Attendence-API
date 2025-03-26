@@ -2,6 +2,7 @@ const httpStatus = require("http-status");
 const Organisation = require("../models/organisation.model");
 const User = require("../models/user.model");
 const ApiError = require("../utils/ApiError");
+const { updateUserById } = require("./user.service");
 
 /**
  * Create the organisation
@@ -43,8 +44,13 @@ const updateOrganisationById = async (id, body) => {
         new: true,
         runValidators: true,
     });
+
     if (!organisation) {
         throw new ApiError(httpStatus.NOT_FOUND, "Organisation not found");
+    }
+
+    if (body.email && organisation.owner) {
+        await updateUserById(organisation.owner, { email: body.email });
     }
     return organisation;
 }
@@ -71,7 +77,7 @@ const createBatch = async (orgId, body) => {
         throw new ApiError(httpStatus.NOT_FOUND, "Organisation not found");
     }
 
-    return organisation; 
+    return organisation;
 };
 
 

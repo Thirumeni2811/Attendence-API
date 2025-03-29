@@ -31,10 +31,19 @@ const createOrganisation = async (body, id) => {
  * Get organisation b Id
  */
 const getOrganisationById = async (id) => {
-    const organisation = await Organisation.findById(id).populate('owner', 'email role');
-    // console.log(organisation)
+    const organisation = await Organisation.findById(id)
+        .populate('owner', 'email role')
+        .populate('employees', 'name email role')
+        .populate('location', 'name address latitude longitude')
+        .populate('department', 'name')
+        .populate('designation', 'name')
+        .populate('schedule', 'name workingHours breaks')
+        .populate('holiday', 'reason date description')
+        .exec(); 
+    
     return organisation;
-}
+};
+
 
 /**
  * Update organisation by Id

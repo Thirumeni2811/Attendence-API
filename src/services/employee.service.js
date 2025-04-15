@@ -16,11 +16,23 @@ const createEmployee = async (organisationId, body) => {
 
     const existingUser = await User.findOne({
         organisation: organisation.id,
-        $or: [{ email: body.email }, { empId: body.empId }]
+        $or: [
+            { email: body.email },
+            { empId: body.empId },
+            { phoneNo: body.phoneNo },
+        ],
     });
 
     if (existingUser) {
-        throw new ApiError(httpStatus.BAD_REQUEST, "Email or Employee ID already exists in this organisation");
+        if (existingUser.email === body.email) {
+            throw new ApiError(httpStatus.BAD_REQUEST, "Email already exists in this organisation");
+        }
+        if (existingUser.empId === body.empId) {
+            throw new ApiError(httpStatus.BAD_REQUEST, "Employee ID already exists in this organisation");
+        }
+        if (existingUser.phoneNo === body.phoneNo) {
+            throw new ApiError(httpStatus.BAD_REQUEST, "Phone number already exists in this organisation");
+        }
     }
 
     const user = await User.create(body);

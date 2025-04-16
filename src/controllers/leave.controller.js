@@ -31,6 +31,15 @@ const getLeavesByUser = catchAsync(async (req, res) => {
     });
 });
 
+// Get leaves by user id
+const getLeavesByUserId = catchAsync(async (req, res) => {
+    const data = await leaveService.getLeavesByUser(req.params.empId);
+    res.status(httpStatus.OK).send({
+        code: httpStatus.OK,
+        data,
+    });
+});
+
 // Get all leaves for the user's organisation
 const getLeavesByOrganisation = catchAsync(async (req, res) => {
     const data = await leaveService.getLeavesByOrganisation(req.user.organisation);
@@ -45,4 +54,5 @@ module.exports = {
     leaveApprovals,
     getLeavesByUser,
     getLeavesByOrganisation,
+    getLeavesByUserId,
 }

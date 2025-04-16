@@ -47,7 +47,10 @@ const createEmployee = async (organisationId, body) => {
  * Get employees
  */
 const getEmployee = async (organisationId) => {
-    const employees = await User.find({ organisation: organisationId });
+    const employees = await User.find({ organisation: organisationId })
+        .populate("department", "name")
+        .populate("designation", "name")
+        ;
     return employees;
 };
 
@@ -55,7 +58,10 @@ const getEmployee = async (organisationId) => {
  * Get employees By Id
  */
 const getEmployeeById = async (id) => {
-    const employees = await User.findById(id);
+    const employees = await User.findById(id)
+    .populate("department", "name")
+        .populate("designation", "name")
+        ;
     return employees;
 };
 

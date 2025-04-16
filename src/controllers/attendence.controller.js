@@ -13,9 +13,18 @@ const markAttendences = catchAsync(async (req, res) => {
     });
 });
 
-//get attendence by userId
+//get attendence by user token
 const getAttendencesById = catchAsync(async (req, res) => {
     const data = await attendenceService.getAttendenceById(req.user._id);
+    res.status(httpStatus.OK).send({
+        code: httpStatus.OK,
+        data,
+    });
+});
+
+//get attendence by userId
+const getAttendencesByUserId = catchAsync(async (req, res) => {
+    const data = await attendenceService.getAttendenceById(req.params.empId);
     res.status(httpStatus.OK).send({
         code: httpStatus.OK,
         data,
@@ -53,6 +62,7 @@ module.exports = {
     markAttendences,
     getAttendencesById,
     getAttendencesByOrganisationId,
+    getAttendencesByUserId,
     getAttendencesManagementById,
     getAttendencesManagementByOrganisationId,
 };

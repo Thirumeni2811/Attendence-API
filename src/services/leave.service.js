@@ -54,6 +54,11 @@ const processLeave = async (leaveId, userId, status, feedback) => {
 // Get leaves by user ID
 const getLeavesByUser = async (userId) => {
     return await Leave.find({ employee: userId })
+        .populate("employee approvedBy")
+        .populate({
+            path: "approvedBy",
+            populate: ["department", "designation"]
+        });
 };
 
 // Get leaves by organisation ID

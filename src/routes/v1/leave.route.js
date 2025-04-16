@@ -16,7 +16,8 @@ router
     .get(auth("getUsers"), leaveController.getLeavesByOrganisation)
 
 router
-    .route("/:leaveId")
+    .route("/:empId")
+    .get(auth("getUsers"), leaveController.getLeavesByUserId)
     .patch(auth("manageUsers"), validate(leaveValidation.leaveId), leaveController.leaveApprovals)
 
 module.exports = router;

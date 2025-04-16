@@ -19,4 +19,8 @@ router
   .route("/getAttendence")
   .get(auth(), attendanceController.getAttendencesManagementById)
 
+router
+    .route("/:empId")
+    .get(auth("getUsers"), attendanceController.getAttendencesByUserId)
+
 module.exports = router;
